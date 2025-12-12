@@ -58,11 +58,12 @@ async function sendToSheet(id) {
 
         const data = await res.json();
         hideLoading();
+        console.log("Response from server:", data);
 
-        if (data.success) {
-            await showToast(`✔️ ${data.message}`, "success");
+        if (data.data.success) {
+            await showToast(`✔️ ${data.data.message}`, "success");
         } else {
-            await showToast(`❌ ${data.message}`, "error");
+            await showToast(`❌ ${data.data.message}`, "error");
         }
 
     } catch (err) {
@@ -76,8 +77,8 @@ async function sendToSheet(id) {
 
 // ======== QR Scan Callback ======== //
 async function onScanSuccess(decodedText) {
-    if (processing || decodedText === lastDecodedId) return await showToast(`✔️ ID ${decodedText} already registered`, "success");;
-    lastDecodedId = decodedText;
+    // if (processing || decodedText === lastDecodedId) return await showToast(`✔️ ID ${decodedText} already registered`, "success");
+    if (processing) return ;
     processing = true;
     sendToSheet(decodedText);
 }
