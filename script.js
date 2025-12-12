@@ -60,9 +60,9 @@ async function sendToSheet(id) {
         hideLoading();
 
         if (data.success) {
-            await showToast(`✔️ ID ${id} checked in`, "success");
+            await showToast(`✔️ ${data.message}`, "success");
         } else {
-            await showToast(`❌ Error`, "error");
+            await showToast(`❌ ${data.message}`, "error");
         }
 
     } catch (err) {
