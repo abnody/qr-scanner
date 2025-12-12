@@ -1,7 +1,6 @@
 
 
-// const WEB_APP_URL = "/api/proxy";
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxzf22Ph-8jkqPRfwI-5B_5fGn-60ZCfcIKlOI-p413P4x0xmWf7vWQ3uiWoBz8-SMF0Q/exec";
+const WEB_APP_URL = "http://127.0.0.1:4040/scan";
 
 let lastDecodedId = null;
 let processing = false;
@@ -51,7 +50,7 @@ async function sendToSheet(id) {
     showLoading();
 
     try {
-        const res = await fetch("http://127.0.0.1:4040/scan", {
+        const res = await fetch(WEB_APP_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ id })
