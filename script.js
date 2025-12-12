@@ -1,6 +1,6 @@
 
 
-const WEB_APP_URL = "http://127.0.0.1:4040/scan";
+const WEB_APP_URL = "https://radiatus-hyperthermally-isabel.ngrok-free.dev/scan";
 
 let lastDecodedId = null;
 let processing = false;
@@ -76,7 +76,7 @@ async function sendToSheet(id) {
 
 // ======== QR Scan Callback ======== //
 async function onScanSuccess(decodedText) {
-    if (processing || decodedText === lastDecodedId) return await showToast(`✔️ ID ${id} already registered`, "success");;
+    if (processing || decodedText === lastDecodedId) return await showToast(`✔️ ID ${decodedText} already registered`, "success");;
     lastDecodedId = decodedText;
     processing = true;
     sendToSheet(decodedText);
