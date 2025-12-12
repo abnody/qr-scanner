@@ -1,5 +1,6 @@
 
 
+// const WEB_APP_URL = "https://radiatus-hyperthermally-isabel.ngrok-free.dev/scan";
 const WEB_APP_URL = "https://radiatus-hyperthermally-isabel.ngrok-free.dev/scan";
 
 let lastDecodedId = null;
@@ -85,8 +86,68 @@ async function onScanSuccess(decodedText) {
 
 // ======== Initialize Scanner ======== //
 const scanner = new Html5Qrcode("reader");
-scanner.start(
-    { facingMode: "environment" },
-    { fps: 35, qrbox: 200, disableFlip: true },
-    onScanSuccess
-);
+let scannerRunning = false;
+
+async function startScanner() {
+    if (scannerRunning) return;
+    try {
+        await scanner.start(
+            { facingMode: "environment" },
+            { fps: 35, qrbox: 200, disableFlip: true },
+            onScanSuccess
+        );
+        scannerRunning = true;
+    } catch (err) {
+        console.error("Failed to start scanner:", err);
+        await showToast(`Scanner error: ${err}`, "error");
+    }
+}
+
+async function stopScanner() {
+    if (!scannerRunning) return;
+    try {
+        await scanner.stop();
+        scannerRunning = false;
+        try { scanner.clear(); } catch (e) { /* ignore */ }
+    } catch (err) {
+        console.error("Failed to stop scanner:", err);
+    }
+}
+
+// Tab wiring and manual input handling
+document.addEventListener("DOMContentLoaded", () => {
+    const tabs = document.querySelectorAll('.tab-btn');
+    const scanSection = document.getElementById('scanner-card');
+    const manualSection = document.getElementById('manual-card');
+    const manualForm = document.getElementById('manual-form');
+    const manualInput = document.getElementById('manual-id');
+
+    function activateTab(name) {
+        tabs.forEach(t => t.setAttribute('aria-selected', t.dataset.tab === name ? 'true' : 'false'));
+        if (name === 'scan') {
+            scanSection.style.display = 'block';
+            manualSection.style.display = 'none';
+            manualSection.setAttribute('aria-hidden', 'true');
+            startScanner();
+        } else {
+            scanSection.style.display = 'none';
+            manualSection.style.display = 'block';
+            manualSection.setAttribute('aria-hidden', 'false');
+            stopScanner();
+        }
+    }
+
+    tabs.forEach(btn => btn.addEventListener('click', () => activateTab(btn.dataset.tab)));
+
+    manualForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = manualInput.value.trim();
+        if (!id) { await showToast('Please enter an ID', 'error'); return; }
+        if (processing) return;
+        processing = true;
+        sendToSheet(id);
+    });
+
+    // default to scan tab
+    activateTab('scan');
+});

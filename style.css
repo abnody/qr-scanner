@@ -42,6 +42,97 @@ h1 {
     margin: auto;
 }
 
+/* Tabs Bar */
+.tabs {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin: 8px auto 16px;
+}
+
+.tab-btn {
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 10px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.18s ease;
+}
+
+.tab-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(2,142,202,0.06);
+}
+
+.tab-btn[aria-selected="true"] {
+    background: linear-gradient(90deg, var(--purple), var(--blue));
+    color: var(--white);
+    border: none;
+    box-shadow: 0 10px 30px rgba(2,142,202,0.18);
+}
+
+.tab-btn:focus {
+    outline: 3px solid rgba(2,142,202,0.12);
+    outline-offset: 2px;
+}
+
+@media (max-width: 420px) {
+    .tabs { gap: 6px; }
+    .tab-btn { padding: 8px 12px; font-size: 14px; }
+}
+
+/* Manual card (Enter ID) */
+.manual-card {
+    display: none;
+}
+
+.manual-wrapper {
+    background: var(--dark-card);
+    border: 2px solid var(--blue);
+    border-radius: 20px;
+    padding: 20px;
+    width: 80%;
+    max-width: 330px;
+    margin: auto;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+.manual-title {
+    margin: 0 0 12px 0;
+    color: var(--blue);
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.manual-input {
+    width: 100%;
+    padding: 12px 10px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    margin-bottom: 12px;
+    background: transparent;
+    color: var(--text-light);
+    font-size: 16px;
+}
+
+.manual-submit {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: var(--purple);
+    color: var(--white);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.manual-submit:hover { background: var(--blue); }
+
 #status-box {
     margin-top: 20px;
     padding: 12px;

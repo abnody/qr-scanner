@@ -11,12 +11,25 @@
 
 <body>
     <h1>BMB Summit – Registration</h1>
+    <div class="tabs" role="tablist">
+        <button class="tab-btn" data-tab="scan" aria-selected="true">Scan QR</button>
+        <button class="tab-btn" data-tab="manual" aria-selected="false">Enter ID</button>
+    </div>
 
     <div id="scanner-container">
         <div id="scanner-card">
             <h1>QR Scanner</h1>
             <div id="reader"></div>
             <div id="status-box"></div>
+        </div>
+        <div id="manual-card" class="manual-card" aria-hidden="true">
+            <div class="manual-wrapper">
+                <h2 class="manual-title">Enter ID</h2>
+                <form id="manual-form">
+                    <input id="manual-id" class="manual-input" type="text" placeholder="Enter ID" />
+                    <button id="manual-submit" class="manual-submit" type="submit">Submit</button>
+                </form>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
